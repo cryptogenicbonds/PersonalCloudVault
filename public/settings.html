@@ -1,0 +1,36 @@
+<div>
+    <ul>
+        <li>CBX Pi Wallet: <span id="rpiwallet"></span></li>
+        <li>Daemon: <span id="daemon"></span> <span id="update"></span></li>
+        <li><a href="/api/wallet?command=backup">Download backup of wallet.dat</a></li>
+    </ul>
+</div>
+
+<script>
+    function updateInfo(){
+        if(!walletInfoLoaded) {
+            setTimeout(function () {
+                updateInfo();
+            }, 80);
+        }else {
+            $('#rpiwallet').html(walletInfo.rpiwallet);
+            $('#daemon').html(walletInfo.version);
+
+            getAPI('command=checkdaemonupdate', function (data) {
+                if (!data.response)
+                    $('#update').html('Update available ! <a href="javascript: void(0);" onclick="updateCBX()">Click here to install update</a>');
+            });
+        }
+    }
+    $(function(){
+        updateInfo();
+    });
+
+    function updateCBX(){
+        if(confirm("In order to update properly, we must stop the wallet during the time it's updating.\r\n The update could take some time, are you sure you want to update now ?")) {
+            getAPI('command=updatedaemon', function (data) {
+                window.location.replace("/");
+            });
+        }
+    }
+</script>

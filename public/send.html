@@ -1,0 +1,17 @@
+<form id="sendform" method="post">
+    <fieldset class="form-group">
+        <label for="addressToSend">Send address:</label>
+        <input type="text" class="form-control" id="addressToSend" name="address" placeholder="Address to send" />
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="amount">Please, type number of CryptoBullion to send</label>
+        <input type="number" class="form-control" id="amount" name="amount" placeholder="Amount of CryptoBullion" />
+        <small class="text-muted"></small>
+    </fieldset>
+
+    <input type="hidden" name="command" value="sendtoaddress" />
+    <p>
+        <button type="button" onclick="sendCommandFromForm('form#sendform');" class="btn btn-primary">Submit</button>
+    </p>
+</form>

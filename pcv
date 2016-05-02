@@ -1,0 +1,44 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          pcv
+# Required-Start:    $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# X-Interactive:     false
+# Short-Description: PCV Daemon
+# Description:       Start/Restart/Stop the Personal Cloud Vault
+### END INIT INFO
+
+DESC="Personal Cloud Vault"
+NAME=pcv
+#DAEMON=
+
+do_start()
+{
+   nohup /home/pi/startup.sh> my.log 2>&1&
+   echo $! > pcv.pid
+   echo "Starting PCV";
+}
+
+do_stop()
+{
+   kill -9 `cat pcv.pid`
+   echo "Stopping PCV"
+}
+
+
+case "$1" in
+        start)
+                do_start
+                ;;
+        stop)
+                do_stop
+                ;;
+        restart)
+                do_stop
+                do_start
+                ;;
+esac
+
+exit 0

@@ -1,0 +1,63 @@
+<form id="addToBook" method="post">
+    <fieldset class="form-group">
+        <label for="addressToAdd">Address:</label>
+        <input type="text" class="form-control" id="addressToAdd" name="address" placeholder="Address" />
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" name="description" placeholder="Description" />
+        <small class="text-muted"></small>
+    </fieldset>
+
+    <input type="hidden" name="command" value="addaddresstobook" />
+    <p>
+        <button type="button" class="btn btn-primary">Add to book</button>
+    </p>
+</form>
+<table id="addressTable" class="table table-bordered table-responsive table-striped">
+    <thead>
+        <tr>
+            <th>Address</th>
+            <th>Description</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<script>
+    function deleteAddressFromBook(address){
+        getAPI('command=delete&address='+address, function(){
+            reloadAddress();
+        });
+    }
+
+    function reloadAddress(){
+        $('table#addressTable tbody').html('');
+        getAPI('command=getaddressbook', function(data){
+
+            if(data.status != 'error'){
+                $.each(data.response, function(key, val){
+                    $('table#addressTable tbody').append('<tr><td><a class="addresslink">'+key+'</a></td><td>'+val+'</td><td><button type="button" class="btn btn-danger" onclick="deleteAddressFromBook(\''+key+'\');">Delete</button></td></tr>');
+                });
+            }
+
+        });
+    }
+
+    $('form#addToBook p button').click(function(){
+        sendCommandFromForm('form#addToBook', function(data){
+            if(data.status == 'error')
+                displayError(data.message);
+            else
+                reloadAddress();
+        });
+    });
+
+    $(function(){
+        reloadAddress();
+    });
+</script>

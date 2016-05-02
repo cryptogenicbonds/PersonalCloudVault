@@ -1,0 +1,36 @@
+<h1>My Addresses</h1>
+<br/>
+<p><button type="button" onclick="newAddress()" class="btn btn-primary">Generate a new address</button></p>
+<br/>
+
+<div id="myaddresses" class="list-group center-block">
+</div>
+
+<script>
+    function reloadMyAddresses(){
+        $('#myaddresses').html('');
+
+        getAPI('command=listaddresses', function(data){
+            if(data.status != 'error') {
+
+                for(var i=0; i<data.response.length; ++i)
+                    $('#myaddresses').append('<button type="button" class="list-group-item">'+data.response[i]+'</button>');
+            }
+
+            $('div#myaddresses button').click(function(){
+                showPopup("<img class='center-block' src='https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl="+$(this).html()+" title='"+$(this).html()+"' /><br/><span class='center-block'>"+$(this).html()+"</span>");
+            });
+        });
+    }
+
+    function newAddress(){
+        getAPI('command=newaddress', function(data){
+            reloadMyAddresses();
+        });
+    }
+
+    $(function(){
+        reloadMyAddresses();
+    });
+
+</script>

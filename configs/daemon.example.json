@@ -1,0 +1,9 @@
+{
+  "dataDir": "~/.CryptoBullion",
+  "bullionDir": "~/CryptoBullion-CBX",
+  "walletDirectory": "~/PersonalCloudVault",
+  "port": 7888,
+  "user": "pi",
+  "password": "randompassword",
+  "autoupdatePCV": true
+}

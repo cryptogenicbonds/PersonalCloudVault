@@ -1,0 +1,68 @@
+<div class="row">
+    <h1 class="text-center">Dashboard</h1>
+
+    <div class="col-xs-6">
+        <h2>Balance Informations</h2>
+        <ul class="list-group">
+            <li class="list-group-item"><span class="badge cbxAvailable"></span> Available</li>
+            <li class="list-group-item"><span class="badge cbxStake"></span> In stake</li>
+            <li class="list-group-item"><span class="badge cbxAmount"></span> Total</li>
+        </ul>
+    </div>
+    <div class="col-xs-6 right">
+        <h2>Transaction history</h2>
+        <div id="transactionHistory" class="row-margin-20 row-bottom-margin">
+
+        </div>
+    </div>
+
+    <script>
+
+        function reloadTransactionList(){
+            getAPI('command=listtransactions', function(data){
+                var htmlToAppend = "";
+                for(var i=0; i<data.response.length; ++i){
+
+                    var glyphe = 'save';
+                    var color = 'green';
+
+                    if(data.response[i].category == 'generate' || data.response[i].category == 'immature')
+                        glyphe = 'import';
+                    else if(data.response[i].category == 'send') {
+                        color = 'red';
+                        glyphe = 'open';
+                    }
+
+
+                    htmlToAppend += '<div class="row"><div class="col-md-1"><h3 class="glyphicon glyphicon-'+glyphe+'"></h3></div>';
+
+                    htmlToAppend += '<div class="col-md-8">';
+
+                    htmlToAppend += '<p><span class="glyphicon glyphicon-log-out"></span> <b>Address: </b>';
+                    if(glyphe == 'import')
+                            htmlToAppend += "Staked";
+                    else
+                            htmlToAppend += data.response[i].address;
+
+                    htmlToAppend += '</p>';
+
+                    htmlToAppend += '<p><span class="glyphicon glyphicon-credit-card"></span> <b>Amount: </b> <span class="'+color+'">'+data.response[i].amount+'</span></p>';
+
+                    htmlToAppend += '</div>';
+                    htmlToAppend += '</div>';
+                }
+
+                $('#transactionHistory').html(htmlToAppend);
+            });
+        }
+
+        $(function(){
+           reloadTransactionList();
+
+            setInterval(function(){
+                if($('#transactionHistory').length)
+                    reloadTransactionList();
+            }, 1500)
+        });
+    </script>
+</div>
