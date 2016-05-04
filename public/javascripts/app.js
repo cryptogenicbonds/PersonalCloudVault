@@ -21,7 +21,7 @@ var timerInformations = null;
 
 function actuallyDown(){
     daemonDown = true;
-    $('#background').html("<div class='white text-center center-block'><h1>Your CBX daemon seems down.</h1><p>If your daemon just updated, it's normal it is just the time it starts... This messaage will disipear once it's ready</p></div>");
+    $('#background').html("<div class='white text-center center-block'><h1>Your CBX daemon seems down.</h1><p>If your daemon just updated, it's normal it is just the time it starts... This message will disipear once it's ready</p></div>");
     $('#background').fadeIn(1);
 }
 
