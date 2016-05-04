@@ -109,11 +109,11 @@ function getAPI(params, callback){
 }
 
 function displayError(message){
-    alert(message);
+    if(message != "") alert(message);
 }
 
 function displaySuccess(message){
-    alert(message);
+    if(message != "") alert(message);
 }
 
 function sendCommandFromForm(selector, callback){

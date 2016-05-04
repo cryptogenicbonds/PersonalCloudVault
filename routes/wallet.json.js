@@ -80,6 +80,12 @@ router.get('/', function(req, res, next) {
                     return;
                 }
 
+                if(rep.code != null && rep.code < 0){
+                    response.status = "error";
+                    response.message = rep.message;
+                }
+                else
+                    response.message = "Your payment has been send successfully, TX ID: "+rep;
                 response.response = rep;
                 res.send(JSON.stringify(response));
                 return;
