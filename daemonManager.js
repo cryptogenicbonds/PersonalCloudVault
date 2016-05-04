@@ -14,14 +14,12 @@ function checkCommand(command){
     return result.replace('command', '') != "";
 }
 
-var requiredPackage = require('./db/requiredPackage.json');
-
 function DaemonManager () {
 
 }
 
 DaemonManager.prototype.checkLastVersion = function(callback){
-    child_process.exec("cd "+daemonConfig.bullionDir+" && git checkout `git rev-list --tags --max-count=1` && git status", function (error, stdout, stderr) {
+    child_process.exec("cd "+daemonConfig.bullionDir+" && git checkout master && git status", function (error, stdout, stderr) {
 
         var result = false;
 
@@ -37,7 +35,7 @@ DaemonManager.prototype.checkLastVersion = function(callback){
 }
 
 DaemonManager.prototype.checkWalletLastVersionAndUpdate = function(callback){
-    child_process.exec("cd "+daemonConfig.walletDirectory+" && git checkout `git rev-list --tags --max-count=1` && git pull origin `git rev-list --tags --max-count=1`", function (error, stdout, stderr) {
+    child_process.exec("cd "+daemonConfig.walletDirectory+" && git checkout master && git pull origin master", function (error, stdout, stderr) {
 
         var result = false;
 
@@ -46,10 +44,11 @@ DaemonManager.prototype.checkWalletLastVersionAndUpdate = function(callback){
 
         if(stderr != null && stderr.toString() != "" && stderr.toString().indexOf("branch is behind") < 0)
             result = true;
-
-        child_process.exec("service pcv restart", function (error, stdout, stderr) {
-            callback(result);
-        });
+        if(result){
+            child_process.exec("service pcv restart", function (error, stdout, stderr) {
+                callback(result);
+            });
+        }
 
     });
 }
@@ -61,9 +60,12 @@ DaemonManager.prototype.updateAndCompile = function(callback){
         clazz.checkLastVersion(function(upToDate){
             if(!upToDate){
                 clazz.updateDaemonStatus("update");
-                callback();
+                callback(true);
                 clazz.kill();
-                child_process.exec("cd "+daemonConfig.bullionDir+" && git checkout `git rev-list --tags --max-count=1` && git pull origin `git rev-list --tags --max-count=1` && cd src/ && make -f makefile.unix", function (error, stdout, stderr) {
+                child_process.exec("cd "+daemonConfig.bullionDir+" && git checkout master && git pull origin master && cd src/ && make -f makefile.pi "
+                    +'BDB_INCLUDE_PATH="/usr/local/BerkeleyDB.4.8/include" '
+                    +'BDB_LIB_PATH="/usr/local/BerkeleyDB.4.8/lib"', 
+                    function (error, stdout, stderr) {
                     console.log(error);
                     console.log(stdout);
                     console.log(stderr);
@@ -73,7 +75,7 @@ DaemonManager.prototype.updateAndCompile = function(callback){
                     }, 25000); // We just wait the daemon start before updating its status
                 });
             }else
-                callback();
+                callback(false);
         });
     });
 }

@@ -174,7 +174,7 @@ function initPopupCSS(){
 }
 
 function updateProgressBar(){
-    if(walletInfo.totalBlock - walletInfo.blocks < 5){
+    if(walletInfo.totalBlock - walletInfo.blocks >= 5){
         var percent = walletInfo.blocks / walletInfo.totalBlock;
         percent *= 100;
         if(percent > 99.99)
