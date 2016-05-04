@@ -9,3 +9,5 @@ router.get('/', function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.send("ok");
 });
+
+module.exports = router;
