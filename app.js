@@ -12,9 +12,9 @@ var users = require('./routes/users');
 var wallet = require('./routes/wallet.json');
 var picheck = require('./routes/picheck');
 
-var DaemonManager = require('../daemonManager.js');
+var DaemonManager = require('./daemonManager.js');
 var daemonManager = new DaemonManager();
-var daemonStatus = require('../db/status.json');
+var daemonStatus = require('./db/status.json');
 
 if(daemonStatus.daemon == 'update')
     daemonManager.updateAndCompile(function(willUpdate){
@@ -25,9 +25,9 @@ else
   daemonManager.tryLaunch();
 
 setInterval(function(){
-  var config = require('../configs/daemon.json');
+  var config = require('./configs/daemon.json');
   if(config.autoupdatePCV) {
-    var daemonStatus = require('../db/status.json');
+    var daemonStatus = require('./db/status.json');
     if (daemonStatus.daemon != 'update')
       daemonManager.checkWalletLastVersionAndUpdate(function(){});
   }
