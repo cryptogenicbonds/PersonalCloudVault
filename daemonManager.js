@@ -45,7 +45,7 @@ DaemonManager.prototype.checkWalletLastVersionAndUpdate = function(callback){
         if(stderr != null && stderr.toString() != "" && stderr.toString().indexOf("branch is behind") < 0)
             result = true;
         if(result){
-            child_process.exec("service pcv restart", function (error, stdout, stderr) {
+            child_process.exec("kill -9 `cat "+os.homedir()+"/pcv.pid` && sudo /etc/init.d/pcv.sh", function (error, stdout, stderr) {
                 callback(result);
             });
         }
