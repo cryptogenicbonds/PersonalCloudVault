@@ -109,7 +109,7 @@ DaemonManager.prototype.checkSrcExists = function(callback){
 
 DaemonManager.prototype.updateDaemonStatus = function(newStatus){
     status.daemon = newStatus;
-    fs.writeFile('./db/status.json', JSON.stringify(status), function (err) {
+    fs.writeFile('./db/status.json', JSON.stringify(status), {flag: 'w'}, function (err) {
         if (err) return console.log(err);
     });
 }
