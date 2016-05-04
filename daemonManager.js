@@ -74,8 +74,12 @@ DaemonManager.prototype.updateAndCompile = function(callback){
                         clazz.updateDaemonStatus("ok");
                     }, 25000); // We just wait the daemon start before updating its status
                 });
-            }else
+            }else{
                 callback(false);
+                setTimeout(function() {
+                        clazz.updateDaemonStatus("ok");
+                    }, 25000);
+            }
         });
     });
 }
