@@ -179,8 +179,9 @@ function updateProgressBar(){
         percent *= 100;
         if(percent > 99.99)
             percent = 99.99;
-        $('#syncProgress div.progress-bar.progress-bar-success').css('width', percent+'%');
-        $('#syncProgress div.progress-bar.progress-bar-success').html('Synchronizing block chain ('+percent.toFixed(2)+'%)');
+        $('#syncProgress div.progress-bar.progress-bar-success.black').css('width', percent+'%');
+        $('#syncProgress div.progress-bar.progress-bar-success.black').attr('aria-valuenow', percent);
+        $('#syncProgress div.progress-bar.progress-bar-success.black').html('Synchronizing block chain ('+percent.toFixed(2)+'%)');
         $('#syncProgress').fadeIn(1);
     }else
         $('#syncProgress').fadeOut(1);
