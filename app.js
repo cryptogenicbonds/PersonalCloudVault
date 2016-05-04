@@ -10,6 +10,7 @@ var routes = require('./routes/index');
 var login = require('./routes/login');
 var users = require('./routes/users');
 var wallet = require('./routes/wallet.json');
+var picheck = require('./routes/picheck');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use(cookieSession({
   keys: ['key1', 'key2']
 }));
 app.use('/', routes);
+app.use('/picheck', picheck);
 app.use('/login', login);
 app.use('/users', users);
 app.use('/api/wallet', wallet);
