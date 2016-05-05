@@ -13,9 +13,9 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="center-block text-center">
-                    <img src="/images/logo.png" alt="Personal Cloud Vault" />
+                    <img id="logo" style="display: none;" src="/images/logo.png" alt="Personal Cloud Vault" />
                 </div>
-                <div class="panel panel-default">
+                <div id="loginpan" class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Login to your Personal Cloud Vault</h3>
                     </div>
@@ -37,5 +37,17 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    $(function(){
+        var width = $('#loginpan').width();
+        var prop = $('#logo').width()/width;
+
+        $('#logo').width(width);
+        $('#logo').height($('#logo').height()*prop);
+        $('#logo').fadeIn(1);
+        $('#logo').css('display', 'inline-block');
+        
+    });
+    </script>
 </body>
 </html>
