@@ -21,13 +21,13 @@ var timerInformations = null;
 
 function actuallyDown(){
     daemonDown = true;
-    $('#background').html("<div class='white text-center center-block'><h1>Your CBX daemon seems down.</h1><p>If your daemon just updated, it's normal it is just the time it starts... This message will disipear once it's ready</p></div>");
-    $('#background').fadeIn(1);
+    $('#background2').html("<div class='white text-center center-block'><h1>Your CBX daemon seems down.</h1><p>If your daemon just updated, it's normal it is just the time it starts... This message will disipear once it's ready</p></div>");
+    $('#background2').fadeIn(1);
 }
 
 function daemonUp(){
     daemonDown = false;
-    $('#background').fadeOut(300);
+    $('#background2').fadeOut(300);
 }
 
 function onURLChange(){
@@ -58,7 +58,7 @@ function onURLChange(){
     if(timerInformations == null)
         timerInformations = setInterval(function() {
             reloadGeneralInformations();
-        }, 800);
+        }, 5000);
 }
 
 function reloadGeneralInformations(){
@@ -158,12 +158,17 @@ function hidePopup(){
     $('#popup').fadeOut(100);
 }
 
+function initBackground(selector){
+    $(selector).css('background-color', 'rgba(0, 0, 0, 0.5)');
+    $(selector).css('z-index', 999998);
+    $(selector).css('position', 'fixed');
+    $(selector).css('width', $(document).width()+'px');
+    $(selector).css('height', $(document).height()+'px');
+}
+
 function initPopupCSS(){
-    $('#background').css('background-color', 'rgba(0, 0, 0, 0.5)');
-    $('#background').css('z-index', 999998);
-    $('#background').css('position', 'fixed');
-    $('#background').css('width', $(document).width()+'px');
-    $('#background').css('height', $(document).height()+'px');
+    initBackground('#background');
+    initBackground('#background2');
 
     $('#popup').css('background-color', 'white');
     $('#popup').css('position', 'fixed');
