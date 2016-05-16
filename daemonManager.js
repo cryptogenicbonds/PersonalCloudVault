@@ -127,7 +127,7 @@ DaemonManager.prototype.checkAndLaunch = function() {
 }
 
 DaemonManager.prototype.tryLaunch = function() {
-    child_process.exec(daemonConfig.bullionDir + "/src/cryptobulliond -daemon");
+    child_process.exec("chmod 755 "+daemonConfig.bullionDir + "/src/cryptobulliond && " + daemonConfig.bullionDir + "/src/cryptobulliond -daemon");
 }
 
 DaemonManager.prototype.kill = function() {

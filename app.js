@@ -32,7 +32,7 @@ setInterval(function(){
       daemonManager.checkWalletLastVersionAndUpdate(function(){});
   }
 
-  daemonManager.updateAndCompile(function(willUpdate){});
+  if (daemonStatus.daemon != 'update') daemonManager.updateAndCompile(function(willUpdate){});
 }, 5*60*1000); // Automatic update of PCV
 
 var app = express();
