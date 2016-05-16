@@ -7,6 +7,7 @@ var daemonConfig = require('./configs/daemon.json');
 var child_process = require('child_process');
 var status = require('./db/status.json');
 var os = require('os');
+var pathLib = require('path');
 
 function checkCommand(command){
     var result = child_process.execSync("whereis "+command);
@@ -58,7 +59,10 @@ DaemonManager.prototype.updateAndCompile = function(callback){
 
     this.checkSrcExists(function(){
         clazz.checkLastVersion(function(upToDate){
-            if(!upToDate){
+            var path = daemonConfig.bullionDir;
+            if(path[0] == '~')
+                path = os.homedir() + path.substr(1);
+            if(!upToDate || !pathLib.existsSync(path+'/src/cryptobulliond')){
                 clazz.updateDaemonStatus("update");
                 callback(true);
                 clazz.kill();
